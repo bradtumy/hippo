@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -14,5 +15,6 @@ func main() {
 	}
 	http.Handle("/identities/", http.StripPrefix("/identities/", httputil.NewSingleHostReverseProxy(target)))
 	//http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("./Documents"))))
+	fmt.Println("API Gateway starting on port :9091")
 	log.Fatal(http.ListenAndServe(":9091", nil))
 }
