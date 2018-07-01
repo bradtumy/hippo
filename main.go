@@ -3,6 +3,7 @@ package main
 import (
 	"github/bradtumy/hippo/cmd/hippo"
 	"github/bradtumy/hippo/config"
+	"github/bradtumy/hippo/routes"
 
 	"log"
 )
@@ -12,7 +13,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	//hippo := hippo.New()
-	//router := routes.NewRouter(hippo)
-	hippo.Startup(cfg)
+
+	hippo := hippo.New(cfg)
+	router := routes.NewRouter(hippo)
+	hippo.Startup(router)
 }
