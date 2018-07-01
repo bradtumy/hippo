@@ -11,7 +11,7 @@ import (
 	"github.com/gorilla/handlers"
 )
 
-func main() {
+func startupConfig() {
 
 	target, err := url.Parse("http://192.168.1.12:9090")
 	if err != nil {
@@ -31,4 +31,8 @@ func main() {
 	fmt.Println("API Gateway starting on port :9091")
 	log.Fatal(http.ListenAndServe(":9091", nil))
 
+}
+
+func main() {
+	startupConfig()
 }
