@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// TODO:  move Handlers to handlers package
+// TODO:  move Handlers to handlers package (referene: https://github.com/steffen25/golang.zone)
 
 // HomeHandler ...
 func HomeHandler(w http.ResponseWriter, r *http.Request) {

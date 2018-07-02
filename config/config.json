@@ -17,5 +17,5 @@
         "public_key_path": "config/api.rsa.pub",
         "private_key_path": "config/api.rsa"
     },
-    "port": ":9091"
+    "port": 9091
   }
