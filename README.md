@@ -1,5 +1,8 @@
 # hippo - API Gateway
 
+## Config
+Update config/config.json.example to match your environment and then save as config.json (do not check in config.json)
+
 ## Run
 go run main.go
 
