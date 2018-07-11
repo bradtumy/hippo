@@ -9,10 +9,17 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// TODO:  move Handlers to handlers package
+// TODO:  move Handlers to handlers package (referene: https://github.com/steffen25/golang.zone)
 
 // HomeHandler ...
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "Category: %v\n", vars["category"])
+}
+
+// AuthHandler ...
+func AuthHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, "Category: %v\n", vars["category"])
@@ -23,6 +30,7 @@ func NewRouter(h *hippo.Hippo) *mux.Router {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", middleware.Logger(HomeHandler))
+	r.HandleFunc("/auth", middleware.Logger(AuthHandler))
 
 	return r
 }

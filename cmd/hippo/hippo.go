@@ -25,12 +25,14 @@ func New(cfg config.Config) *Hippo {
 // Startup provides all of the config details and runs hippo
 func (a *Hippo) Startup(r *mux.Router) {
 
-	Port := a.Config.Port
+	port := a.Config.Port
+	addr := fmt.Sprintf(":%v", port)
+
 	headersOk := handlers.AllowedHeaders([]string{"Authorization", "Content-Type", "X-Requested-With"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
-	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"})
 
-	fmt.Println("Hippo is listening on port: ", Port)
-	log.Fatal(http.ListenAndServe(Port, handlers.CORS(originsOk, headersOk, methodsOk)(r)))
+	fmt.Println("API Gateway is started and listening on port:", port)
+	log.Fatal(http.ListenAndServe(addr, handlers.CORS(originsOk, headersOk, methodsOk)(r)))
 
 }

@@ -31,7 +31,7 @@ type Config struct {
 	MySQL MySQLConfig `json:"mysql"`
 	Redis RedisConfig `json:"redis"`
 	JWT   JWTConfig   `json:"jwt"`
-	Port  string      `json:"port"`
+	Port  int         `json:"port"`
 }
 
 // New creates a new config by reading a json file that matches the types above
