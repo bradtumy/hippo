@@ -79,8 +79,10 @@ func createJWT(user string) AuthToken {
 }
 
 func checkCredentials(user string, pass string) bool {
-
 	var strAuthenticationStatus = true
+	// Read properties file to get the IdRepo Configuration
+	// Create connection to IdRepo
+	// Authenticate the user using credentials provided by the user
 	// send username and password to identity repo
 	return strAuthenticationStatus
 }
