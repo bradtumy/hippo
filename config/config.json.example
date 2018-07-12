@@ -3,7 +3,7 @@
     "mysql": {
       "host": "app_mysql",
       "username": "root",
-      "password": "password",
+      "password": "",
       "database": "app",
       "encoding": "utf8mb4",
       "port": "3306"
@@ -17,5 +17,8 @@
         "public_key_path": "config/api.rsa.pub",
         "private_key_path": "config/api.rsa"
     },
-    "port": 9091
+    "port": 9091,
+    "identity_repo" : {
+      "datastore" : "mysql"
   }
+}
