@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -54,21 +55,43 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Category: %v\n", vars["category"])
 }
 
-func createJWT(user string) AuthToken {
+type Authenticater interface {
+	Authenticater() bool
+}
+type CreateToken interface {
+	CreateToken() AuthToken
+}
+
+func GetAuthentication(auth Authenticater) bool {
+	return auth.Authenticater()
+}
+
+func GetJWTToken(tok CreateToken) AuthToken {
+	return tok.CreateToken()
+}
+
+func (u *User) Authenticater() bool {
+	log.Println("User: authenticating", u.Username)
+
+	authenticated := true // <--- replace this with real authentication logic
+	return authenticated
+}
+
+func (u *User) CreateToken() AuthToken {
+
 	expiresAt := time.Now().Add(time.Minute * 1).Unix()
 
 	token := jwt.New(jwt.SigningMethodHS256)
 	token.Claims = jwt.MapClaims{
 		"exp": expiresAt,
 		"iat": time.Now().Unix(),
-		"sub": user,
+		"sub": u.Username,
 	}
 
 	tokenString, error := token.SignedString([]byte("secret"))
 	if error != nil {
 		fmt.Println(error)
 	}
-
 	authToken := AuthToken{
 		TokenType: "Bearer",
 		Token:     tokenString,
@@ -76,30 +99,21 @@ func createJWT(user string) AuthToken {
 	}
 
 	return authToken
-}
 
-func checkCredentials(user string, pass string) bool {
-	var strAuthenticationStatus = true
-	// Read properties file to get the IdRepo Configuration
-	// Create connection to IdRepo
-	// Authenticate the user using credentials provided by the user
-	// send username and password to identity repo
-	return strAuthenticationStatus
 }
 
 func AuthenticateHandler(w http.ResponseWriter, req *http.Request) {
-	var authenticated = false
-	var user User
-	_ = json.NewDecoder(req.Body).Decode(&user)
 
-	user.Username = req.Header.Get("username")
-	user.Password = req.Header.Get("password")
+	user := &User{
+		Username: req.Header.Get("username"),
+		Password: req.Header.Get("password"),
+	}
 
-	// now actually authenticate the user
-	authenticated = checkCredentials(user.Username, user.Password)
+	userAuthenticated := GetAuthentication(user)
 
-	if authenticated == true {
-		authToken := createJWT(user.Username)
+	if userAuthenticated == true {
+		authToken := GetJWTToken(user) // if user successfully authenticates then create JWT
+
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(&authToken)
 
