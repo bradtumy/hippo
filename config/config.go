@@ -26,17 +26,22 @@ type JWTConfig struct {
 	PrivateKeyPath string `json:"private_key_path"`
 }
 
-type IdRepoConfig struct {
-	DataStore string `json:"datastore"`
+type Target struct {
+	Url  string `json:"url"`
+	Port int    `json:"port"`
 }
 
 type Config struct {
-	Env    string       `json:"env"`
-	MySQL  MySQLConfig  `json:"mysql"`
-	Redis  RedisConfig  `json:"redis"`
-	JWT    JWTConfig    `json:"jwt"`
-	Port   int          `json:"port"`
-	IdRepo IdRepoConfig `json:"idrepo"`
+	Env    string      `json:"env"`
+	MySQL  MySQLConfig `json:"mysql"`
+	Redis  RedisConfig `json:"redis"`
+	JWT    JWTConfig   `json:"jwt"`
+	Port   int         `json:"port"`
+	Target Target      `json:"target"`
+}
+
+type IdRepoConfig struct {
+	DataStore string `json:"datastore"`
 }
 
 // New creates a new config by reading a json file that matches the types above

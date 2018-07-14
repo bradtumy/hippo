@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/http/httputil"
 	"strings"
 	"time"
 
@@ -55,9 +56,16 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Category: %v\n", vars["category"])
 }
 
+func Proxyhandler(p *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		p.ServeHTTP(w, r)
+	}
+}
+
 type Authenticater interface {
 	Authenticater() bool
 }
+
 type CreateToken interface {
 	CreateToken() AuthToken
 }
@@ -78,7 +86,6 @@ func (u *User) Authenticater() bool {
 }
 
 func (u *User) CreateToken() AuthToken {
-
 	expiresAt := time.Now().Add(time.Minute * 1).Unix()
 
 	token := jwt.New(jwt.SigningMethodHS256)
