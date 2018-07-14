@@ -40,6 +40,10 @@ type Config struct {
 	Target Target      `json:"target"`
 }
 
+type IdRepoConfig struct {
+	DataStore string `json:"datastore"`
+}
+
 // New creates a new config by reading a json file that matches the types above
 func New(path string) (Config, error) {
 	file, err := os.Open(path)
