@@ -1,9 +1,9 @@
-FROM scratch
+FROM alpine
 MAINTAINER Brad Tumy
 
-EXPOSE 9091
+EXPOSE 8080
 
-COPY ./server ./
+COPY ./hippo ./
 COPY config/config.json ./config/config.json
 
-ENTRYPOINT [ "./server" ]
+ENTRYPOINT [ "./hippo" ]
