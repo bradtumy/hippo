@@ -7,6 +7,10 @@ Update config/config.json.example to match your environment and then save as con
 go run main.go
 
 ## Docker
+
+### Get Package
+go get github.com/bradtumy/hippo
+
 ### Create Binary
 CGO_ENABLED=0 GOOS=linux GARCH=386 go build -a -installsuffix cgo -ldflags '-s' -o hippo
 
